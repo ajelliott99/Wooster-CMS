@@ -20,4 +20,7 @@
 			<ul>
 				<li><a href="<?php echo WWW_ROOT . '/tags.php'; ?>"> Tags </a></li>
 			</ul>
+			<ul>
+				<li><a href="<?php echo WWW_ROOT . '/posts.php'; ?>"> Posts </a></li>
+			</ul>
 		</nav>

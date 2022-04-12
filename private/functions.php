@@ -6,4 +6,8 @@ function h($string){
 function u($url){
 	return urlencode($url);
 }
+
+function db_escape($connection, $query){
+	return mysqli_real_escape_string($connection, $query);
+}
 ?>
