@@ -57,7 +57,7 @@ function create_tag($connection, $name, $desc){
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
-			$errors[] = "Database Error. Add more details later.";
+			$errors[] = mysqli_connect_error();
 		}
 	}
 	

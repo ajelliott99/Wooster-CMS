@@ -6,6 +6,7 @@
 <div class="create-new-button">
 	<a href="<?php echo 'create.php?type=tag'; ?>">Create New Tag</a>
 </div>
+
 <table>
 	<tr>
 		<th></th>
