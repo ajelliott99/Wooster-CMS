@@ -66,7 +66,7 @@ function create_tag($connection, $name, $desc){
 
 function delete_tag($connection, $id){
 	$query = "DELETE FROM tags ";
-	$query .= "WHERE TagID='" . $id . "'";
+	$query .= "WHERE TagID='" . db_escape($connection, $id) . "'";
 
 	$result = mysqli_query($connection, $query);
 	return $result;
@@ -135,6 +135,14 @@ function get_post_by_id($connection, $id){
 
 	mysqli_free_result($result);
 	return $data;
+}
+
+function delete_post($connection, $id){
+	$query = "DELETE FROM posts ";
+	$query .= "WHERE PostID='" . db_escape($connection, $id) . "'";
+
+	$result = mysqli_query($connection, $query);
+	return $result;
 }
 
 function validate_tag($name, $desc){
