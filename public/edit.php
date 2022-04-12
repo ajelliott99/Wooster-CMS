@@ -7,23 +7,23 @@ if(!isset($_GET['type'])){ header("Location: index.php"); }
 if(!isset($_GET['id'])){ header("Location: index.php"); }
 
 // If there is a type, store that as t
-t = $_GET['type'];
+$t = $_GET['type'];
 
 // Holds info about the post or tag being edited
 $tag_info = [];
 $post_info = [];
 
 // Assigns variables according to whether post or tag
-if(t == "tag"){
+if($t == "tag"){
 	$tag_info['TagID'] = $_GET['id'];
-}elseif(t == "post"){
+}elseif($t == "post"){
 	$post_info['PostID'] = $_GET['id'];
 }
 
 // If POST request
 if($_SERVER['REQUEST_METHOD'] === "POST"){
 	
-	if(t == "tag"){
+	if($t == "tag"){
 		$tag_info['Name'] = $_POST['name'] ?? "";
 		$tag_info['Description'] = $_POST['desc'] ?? "";
 		
@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 			header("Location: tags.php");
 		}
 		
-	}elseif(t == "post"){
+	}elseif($t == "post"){
 		$post_info['TagID'] = $_POST['tagid'];
 		$post_info['Weight'] = $_POST['weight'];
 		$post_info['Visible'] = $_POST['visible'];
@@ -55,23 +55,26 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 // If GET request
 }elseif($_SERVER['REQUEST_METHOD'] === "GET"){
 	
-	if(!isset($_GET['id'])){ 
-		header('Location: index.php'); 
+	if($t == "tag"){
+		$tag = get_tag_by_id($conn, $_GET['id']);
+		$tag_info['TagID'] = $_GET['id'];
+		$tag_info['Name'] = $tag['Name'];
+		$tag_info['Description'] = $tag['Description'];
+	}elseif($t == "post"){
+		$post = get_post_by_id($conn, $_GET['id']);
+		$post_info['TagID'] = $post['TagID'];
+		$post_info['Weight'] = $post['Weight'];
+		$post_info['Visible'] = $post['Visible'];
+		$post_info['Title'] = $post['Title'];
+		$post_info['Subtitle'] = $post['Subtitle'];
+		$post_info['Content'] = $post['Content'];
 	}
-	
-	$tag = get_tag_by_id($conn, $_GET['id']);
-	$tag_info['TagID'] = $_GET['id'];
-	$tag_info['Name'] = $tag['Name'];
-	$tag_info['Description'] = $tag['Description'];
-	
-
-	
 }
 
 require_once(PRIVATE_PATH . '/templates/header.php');
 ?>
 <?php
-if($_GET['type'] == "tag"){ ?>
+if($t == "tag"){ ?>
 	<h1>Edit Tag</h1>
 	<form action="<?php echo 'edit.php?type=tag&id=' . $tag_info['TagID']?>" method="post">
 		<p> ID: <?php echo h($tag_info['TagID']); ?></p>
@@ -81,23 +84,29 @@ if($_GET['type'] == "tag"){ ?>
 		<label>Description: 
 		<input type="text" name="desc" id="desc" size="50" value="<?php echo h($tag_info['Description']); ?>"></input>
 		</label></br>
-		<input type="submit" name="submit" id="submit" value="Submit"></input>
+		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>
-<?php }elseif(){ ?>
+<?php }elseif($t == "post"){ ?>
 	<h1> Edit Post </h1>
 	<form action="<?php echo 'edit.php?type=post';?>" method="post" class="create-new-form">
-		<input type="text" name="title" id="title" placeholder="Title"></input>
-		</br>
-		<input type="text" name="subtitle" id="subtitle" size="100" placeholder="Subtitle"></input>
-		</br>
-		<input type="text" name="tagid" id="tagid" size="6" placeholder="Tag"></input>
-		</br>
-		<input type="text" name="weight" id="weight" size="6" placeholder="Weight"></input>
-		</br>
-		<input type="text" name="visible" id="visible" size="6" placeholder="Visible"></input>
-		</br>
-		<input type="text" name="content" id="content" size="500" placeholder="Content"></input>
-		</br>
-		<input type="submit" name="submit" id="submit" value="Create"></input>
+		<label>Title:
+			<input type="text" name="title" id="title" value="<?php echo h($post_info['Title']); ?>"></input>
+		</label></br>
+		<label>Subtitle:
+			<input type="text" name="subtitle" id="subtitle" size="100" value="<?php echo h($post_info['Subtitle']); ?>"></input>
+		</label></br>
+		<label>Tag: 
+			<input type="text" name="tagid" id="tagid" size="6" value="<?php echo h($post_info['TagID']); ?>"></input>
+		</label></br>
+		<label>Weight:
+			<input type="text" name="weight" id="weight" size="6" value="<?php echo h($post_info['Weight']); ?>"></input>
+		</label></br>
+		<label>Visible:
+			<input type="text" name="visible" id="visible" size="6" value="<?php echo h($post_info['Visible']); ?>"></input>
+		</label></br>
+		<label>Content:
+			<input type="text" name="content" id="content" size="500" value="<?php echo h($post_info['Content']); ?>"></input>
+		</label></br>
+		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>
 <?php } ?>

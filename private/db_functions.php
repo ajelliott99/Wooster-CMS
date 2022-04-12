@@ -124,6 +124,19 @@ function update_post($connection, $postid, $tagid, $weight, $visible, $title, $s
 	return $errors;
 }
 
+function get_post_by_id($connection, $id){
+	
+	$query = "SELECT * FROM posts ";
+	$query .= "WHERE PostID='" . db_escape($connection, $id) . "' ";
+	$query .= "LIMIT 1";
+	$result = mysqli_query($connection, $query);
+	
+	$data = mysqli_fetch_assoc($result);
+
+	mysqli_free_result($result);
+	return $data;
+}
+
 function validate_tag($name, $desc){
 	$errors = [];
 	
