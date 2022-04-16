@@ -81,3 +81,59 @@ table tr th {
 div.create-new-button{
 	margin: 10px;
 }
+
+/* View Post (view.php) */
+.view-post-container{
+	background: #FFF;
+	width: 60%;
+	margin: auto;
+	margin-collapse: none;
+}
+
+.view-post-title-container{
+	padding: 15px;
+	
+}
+
+.view-post-title-container h1{
+	margin: 0px 0px 10px 0px;
+}
+
+.view-post-title-container h2{
+	margin: 0px 0px 15px 0px;
+}
+
+.view-post-author{
+
+}
+
+.view-post-content-container{
+	padding: 15px;
+}
+
+/* List of posts (posts.php) */
+.all-posts-container{
+	background: #4ecdc4;
+	margin: auto;
+	padding: 10px;
+	width: 70%;
+}
+
+.container-header{
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
+}
+
+.post-container{
+	background: #f7fff7;
+	margin: 10px;
+}
+
+.post-top-row{
+	padding: 10px;
+}
+
+.post-bottom-row{
+	padding: 10px;
+}

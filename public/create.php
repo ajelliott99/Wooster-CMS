@@ -32,8 +32,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		$post_info['Title'] = $_POST['title'];
 		$post_info['Subtitle'] = $_POST['subtitle'];
 		$post_info['Content'] = $_POST['content'];
+		$post_info['Author'] = $_POST['author'];
 		
-		$errors = create_post($conn, $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content']);
+		$errors = create_post($conn, $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content'], $post_info['Author']);
 		if(!empty($errors)){
 			echo $errors;
 		}else{
@@ -69,6 +70,8 @@ if($t == "tag"){ ?>
 		<input type="text" name="title" id="title" placeholder="Title"></input>
 		</br>
 		<input type="text" name="subtitle" id="subtitle" size="100" placeholder="Subtitle"></input>
+		</br>
+		<input type="text" name="author" id="author" placeholder="Author"></input>
 		</br>
 		<input type="text" name="tagid" id="tagid" size="6" placeholder="Tag"></input>
 		</br>

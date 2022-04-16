@@ -41,10 +41,11 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		$post_info['Title'] = $_POST['title'];
 		$post_info['Subtitle'] = $_POST['subtitle'];
 		$post_info['Content'] = $_POST['content'];
+		$post_info['Author'] = $_POST['author'];
 		
-		$errors = update_post($conn, $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content']);
+		$errors = update_post($conn, $post_info['PostID'], $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content'], $post_info['Author']);
 		if(!empty($errors)){
-			echo "Errors in edit.php";
+			echo "Errors in edit.php. Database not updated. ";
 		}else{
 			header("Location: posts.php");
 		}
@@ -68,6 +69,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		$post_info['Title'] = $post['Title'];
 		$post_info['Subtitle'] = $post['Subtitle'];
 		$post_info['Content'] = $post['Content'];
+		$post_info['Author'] = $post['Author'];
 	}
 }
 
@@ -76,7 +78,7 @@ require_once(PRIVATE_PATH . '/templates/header.php');
 <?php
 if($t == "tag"){ ?>
 	<h1>Edit Tag</h1>
-	<form action="<?php echo 'edit.php?type=tag&id=' . $tag_info['TagID']?>" method="post">
+	<form action="<?php echo 'edit.php?type=tag&id=' . $tag_info['TagID'];?>" method="post">
 		<p> ID: <?php echo h($tag_info['TagID']); ?></p>
 		<label>Name: 
 		<input type="text" name="name" id="name" value="<?php echo h($tag_info['Name']); ?>"></input>
@@ -88,12 +90,15 @@ if($t == "tag"){ ?>
 	</form>
 <?php }elseif($t == "post"){ ?>
 	<h1> Edit Post </h1>
-	<form action="<?php echo 'edit.php?type=post';?>" method="post" class="create-new-form">
+	<form action="<?php echo 'edit.php?type=post&id=' . $post_info['PostID'];?>" method="post" class="create-new-form">
 		<label>Title:
 			<input type="text" name="title" id="title" value="<?php echo h($post_info['Title']); ?>"></input>
 		</label></br>
 		<label>Subtitle:
 			<input type="text" name="subtitle" id="subtitle" size="100" value="<?php echo h($post_info['Subtitle']); ?>"></input>
+		</label></br>
+		<label>Author:
+			<input type="text" name="author" id="author" size="99" value="<?php echo h($post_info['Author']); ?>"></input>
 		</label></br>
 		<label>Tag: 
 			<input type="text" name="tagid" id="tagid" size="6" value="<?php echo h($post_info['TagID']); ?>"></input>

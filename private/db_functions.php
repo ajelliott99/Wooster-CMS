@@ -87,37 +87,38 @@ function get_all_posts($connection){
 	return $data;
 }
 
-function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content){
-	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content);
+function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
+	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
 	
-	$query = "INSERT INTO posts (TagID, Weight, Visible, Title, Subtitle, Content) ";
-	$query .= "VALUES ('" . db_escape($connection, $tagid) . "', '" . db_escape($connection, $weight) . "', '" . db_escape($connection, $visible) . "', '" . db_escape($connection, $title) . "', '" . db_escape($connection, $subtitle) . "', '" . db_escape($connection, $content) . "') ";
+	$query = "INSERT INTO posts (TagID, Weight, Visible, Title, Subtitle, Content, Author) ";
+	$query .= "VALUES ('" . db_escape($connection, $tagid) . "', '" . db_escape($connection, $weight) . "', '" . db_escape($connection, $visible) . "', '" . db_escape($connection, $title) . "', '" . db_escape($connection, $subtitle) . "', '" . db_escape($connection, $content) . "', '" . db_escape($connection, $author) . "') ";
 
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
-			$errors[] = "Database Error. Add more details later.";
+			$errors[] = mysqli_connect_error();
 		}
 	}
 	
 	return $errors;
 }
 
-function update_post($connection, $postid, $tagid, $weight, $visible, $title, $subtitle, $content){
+function update_post($connection, $postid, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
 	$query = "UPDATE posts ";
 	$query .= "SET TagID='" . db_escape($connection, $tagid) . "', ";
-	$query .= "Weight='" . db_escape($connection, $weight) . "' ";
-	$query .= "Visible='" . db_escape($connection, $visible) . "' ";
-	$query .= "Title='" . db_escape($connection, $title) . "' ";
-	$query .= "Subtitle='" . db_escape($connection, $subtitle) . "' ";
-	$query .= "Content='" . db_escape($connection, $content) . "' ";
+	$query .= "Weight='" . db_escape($connection, $weight) . "', ";
+	$query .= "Visible='" . db_escape($connection, $visible) . "', ";
+	$query .= "Title='" . db_escape($connection, $title) . "', ";
+	$query .= "Subtitle='" . db_escape($connection, $subtitle) . "', ";
+	$query .= "Content='" . db_escape($connection, $content) . "', ";
+	$query .= "Author='" . db_escape($connection, $author) . "' ";
 	$query .= "WHERE PostID='" . $postid . "'";
-	
-	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content);
+	echo $query;
+	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
-			$errors[] = "Database Error. Add more details later.";
+			$errors[] = mysqli_connect_error();
 		}
 	}
 	
@@ -151,7 +152,7 @@ function validate_tag($name, $desc){
 	return $errors;
 }
 
-function validate_post($tagid, $weight, $visible, $title, $subtitle, $content){
+function validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author){
 	$errors = [];
 	
 	return $errors;
