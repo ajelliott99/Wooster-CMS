@@ -111,6 +111,31 @@ div.create-new-button{
 	padding: 15px;
 }
 
+/* View Tag (view.php) */
+.view-tag-container{
+	background: #FFF;
+	width: 60%;
+	margin: auto;
+	margin-collapse: none;
+}
+
+.view-tag-name-container{
+	padding: 15px;
+	
+}
+
+.view-tag-name-container h1{
+	margin: 0px 0px 10px 0px;
+}
+
+.view-tag-name-container p{
+	margin: 0px 0px 15px 0px;
+}
+
+.view-tag-content-container{
+	padding: 15px;
+}
+
 /* List of posts (posts.php) */
 .all-posts-container{
 	background: #4ecdc4;
@@ -120,6 +145,12 @@ div.create-new-button{
 }
 
 .container-header{
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
+}
+
+.container-subhead{
 	margin: 5px;
 	padding: 5px;
 	text-align: center;
@@ -135,5 +166,32 @@ div.create-new-button{
 }
 
 .post-bottom-row{
+	padding: 10px;
+}
+
+/* List of tags for public view (viewcategories.php) */
+.all-tags-container{
+	background: #4ecdc4;
+	margin: auto;
+	padding: 10px;
+	width: 70%;
+}
+
+.tags-container-header{
+	margin: 5px;
+	padding: 5px;
+	text-align: center;
+}
+
+.tag-container{
+	background: #f7fff7;
+	margin: 10px;
+}
+
+.tag-top-row{
+	padding: 10px;
+}
+
+.tag-bottom-row{
 	padding: 10px;
 }

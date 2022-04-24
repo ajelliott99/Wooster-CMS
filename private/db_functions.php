@@ -73,10 +73,44 @@ function delete_tag($connection, $id){
 }
 
 // Returns an array of dictionaries with post info. Ex: posts[0]['Content']
+// Sorted by most recently updated
 function get_all_posts($connection){
 	$data = array();
 	
-	$query = "SELECT * FROM posts";
+	$query = "SELECT * FROM posts ";
+	$query .= "ORDER BY Updated DESC";
+	$result = mysqli_query($connection, $query);
+	
+	while($fetch = mysqli_fetch_assoc($result)){
+		array_push($data, $fetch);
+	}
+	
+	mysqli_free_result($result);
+	return $data;
+}
+
+// Returns an array of dictionaries with post info, sorted by weight, the higher weights appearing at the top.
+function get_all_posts_by_weight($connection){
+	$data = array();
+	
+	$query = "SELECT * FROM posts ";
+	$query .= "ORDER BY Weight DESC";
+	$result = mysqli_query($connection, $query);
+	
+	while($fetch = mysqli_fetch_assoc($result)){
+		array_push($data, $fetch);
+	}
+	
+	mysqli_free_result($result);
+	return $data;
+}
+
+function get_all_posts_by_tag_id($connection, $id){
+	$data = array();
+	
+	$query = "SELECT * FROM posts ";
+	$query .= "WHERE TagID=" . $id . " ";
+	$query .= "ORDER BY Weight DESC";
 	$result = mysqli_query($connection, $query);
 	
 	while($fetch = mysqli_fetch_assoc($result)){
@@ -90,9 +124,11 @@ function get_all_posts($connection){
 function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
 	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
 	
-	$query = "INSERT INTO posts (TagID, Weight, Visible, Title, Subtitle, Content, Author) ";
-	$query .= "VALUES ('" . db_escape($connection, $tagid) . "', '" . db_escape($connection, $weight) . "', '" . db_escape($connection, $visible) . "', '" . db_escape($connection, $title) . "', '" . db_escape($connection, $subtitle) . "', '" . db_escape($connection, $content) . "', '" . db_escape($connection, $author) . "') ";
-
+	$timestamp = date('Y-m-d H:i:s');
+	
+	$query = "INSERT INTO posts (TagID, Weight, Visible, Title, Subtitle, Content, Author, Updated) ";
+	$query .= "VALUES ('" . db_escape($connection, $tagid) . "', '" . db_escape($connection, $weight) . "', '" . db_escape($connection, $visible) . "', '" . db_escape($connection, $title) . "', '" . db_escape($connection, $subtitle) . "', '" . db_escape($connection, $content) . "', '" . db_escape($connection, $author) . "', '" . db_escape($connection, $timestamp) . "') ";
+	echo $query;
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
@@ -104,6 +140,8 @@ function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, 
 }
 
 function update_post($connection, $postid, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
+	$timestamp = date('Y-m-d H:i:s');
+	
 	$query = "UPDATE posts ";
 	$query .= "SET TagID='" . db_escape($connection, $tagid) . "', ";
 	$query .= "Weight='" . db_escape($connection, $weight) . "', ";
@@ -111,7 +149,8 @@ function update_post($connection, $postid, $tagid, $weight, $visible, $title, $s
 	$query .= "Title='" . db_escape($connection, $title) . "', ";
 	$query .= "Subtitle='" . db_escape($connection, $subtitle) . "', ";
 	$query .= "Content='" . db_escape($connection, $content) . "', ";
-	$query .= "Author='" . db_escape($connection, $author) . "' ";
+	$query .= "Author='" . db_escape($connection, $author) . "', ";
+	$query .= "Updated='" . $timestamp . "' ";
 	$query .= "WHERE PostID='" . $postid . "'";
 	echo $query;
 	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
