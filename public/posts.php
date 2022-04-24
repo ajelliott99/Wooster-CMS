@@ -1,5 +1,8 @@
-<?php require_once('../private/init.php'); ?>
-<?php require_once(PRIVATE_PATH . '/templates/header.php'); ?>
+<?php 
+require_once('../private/init.php'); 
+if(!is_logged_in()){ header("Location: index.php"); } 
+require_once(PRIVATE_PATH . '/templates/header.php'); 
+?>
 
 <div class="all-posts-container">
 	<h1 class="container-header"> Posts </h1>

@@ -146,6 +146,56 @@ function delete_post($connection, $id){
 	return $result;
 }
 
+function create_admin($connection, $admin_info){
+	$errors = validate_signup_info($connection, $admin_info['username'], $admin_info['email'], $admin_info['password']);
+
+	if(empty($errors)){
+		$admin_info['hashed_password'] = password_hash($admin_info['password'], PASSWORD_BCRYPT);
+		
+		$query = "INSERT INTO admins (first_name, last_name, email, username, hashed_password) ";
+		$query .= "VALUES ('" . db_escape($connection, $admin_info['firstname']) . "', '" . db_escape($connection, $admin_info['lastname']) . "', '" . db_escape($connection, $admin_info['email']) . "', '" . db_escape($connection, $admin_info['username']) . "', '" . db_escape($connection, $admin_info['hashed_password']) . "') ";
+		
+		$result = mysqli_query($connection, $query);
+		if(!$result){
+			$errors[] = mysqli_connect_error();
+		}
+	}
+	
+	return $errors;
+}
+
+function get_admin_by_username($connection, $username){
+	$errors = [];
+	
+	$query = "SELECT * FROM admins ";
+	$query .= "WHERE username='" . db_escape($connection, $username) . "' ";
+	$query .= "LIMIT 1";
+	$result = mysqli_query($connection, $query);
+	
+	$data = mysqli_fetch_assoc($result);
+
+	mysqli_free_result($result);
+	return $data;
+}
+
+function get_admin_by_email($connection, $email){
+	$errors = [];
+	
+	$query = "SELECT * FROM admins ";
+	$query .= "WHERE email='" . db_escape($connection, $email) . "' ";
+	$query .= "LIMIT 1";
+	$result = mysqli_query($connection, $query);
+	
+	$data = mysqli_fetch_assoc($result);
+
+	mysqli_free_result($result);
+	return $data;
+}
+
+function delete_admin($connection, $id){
+	
+}
+
 function validate_tag($name, $desc){
 	$errors = [];
 	
@@ -154,6 +204,43 @@ function validate_tag($name, $desc){
 
 function validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author){
 	$errors = [];
+	
+	return $errors;
+}
+
+// Very basic validation functions for creating admins 
+// TO DO: Add more validations to increase data reliability 
+function validate_signup_info($connection, $username, $email, $password){
+	$errors = [];
+	
+	// Validate username
+	if(empty($username)){
+		$errors[] = "Username cannot be blank.";
+	}elseif(strlen($username) < 4){
+		$errors[] = "Username must be at least 4 characters.";
+	}elseif(strlen($username) > 30){
+		$errors[] = "Username cannot be more than 30 characters.";
+	}elseif(!empty(get_admin_by_username($connection, $username))){
+		$errors[] = "Username taken.";
+	}
+	
+	// Validate email
+	$email_regex = '/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\Z/i';
+	if(empty($email)){
+		$errors[] = "Email cannot be empty";
+	}elseif(!preg_match($email_regex, $email)){
+		$errors[] = "Invalid email format.";
+	}
+	
+	// Validate password
+	if(empty($password)){
+		$errors[] = "Password cannot be empty.";
+	}elseif(strlen($password) < 6){
+		$errors[] = "Password must be at least 6 characters.";
+	}elseif(strlen($password) > 50){
+		$errors[] = "Password cannot be over 50 characters.";
+	}
+	
 	
 	return $errors;
 }

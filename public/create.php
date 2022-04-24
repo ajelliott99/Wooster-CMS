@@ -1,5 +1,6 @@
 <?php
 require_once('../private/init.php');
+if(!is_logged_in()){ header("Location: index.php"); } 
 
 // If there is no type in the URL, redirect to homepage
 if(!isset($_GET['type'])){ header("Location: index.php"); }

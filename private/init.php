@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 define("PRIVATE_PATH", dirname(__FILE__));
 define("PROJECT_ROOT", dirname(PRIVATE_PATH));
 
@@ -13,5 +15,6 @@ define("WWW_ROOT", $doc_root);
 require_once(PRIVATE_PATH . '/database.php');
 require_once(PRIVATE_PATH . "/functions.php");
 require_once(PRIVATE_PATH . "/db_functions.php");
+require_once(PRIVATE_PATH . "/auth_functions.php");
 
 ?>
