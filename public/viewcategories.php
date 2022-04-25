@@ -14,12 +14,13 @@ $tags = get_all_tags($conn);
 		<div class="tag-container">
 			<div class="tag-top-row">
 				<div>
-					<h3><?php echo h($tag['Name']); ?></h3>
+				
+					<h3><a class="view-post-btn" href="view.php?type=tag&id=<?php echo $tag['TagID']; ?>"><?php echo h($tag['Name']); ?></a></h3>
 					<h4><?php echo h($tag['Description']); ?></h4>
 				</div>
 			</div>
 			<div class="tag-bottom-row">
-				<a href="view.php?type=tag&id=<?php echo $tag['TagID']; ?>">View Posts</a>
+				<a class="view-post-btn" href="view.php?type=tag&id=<?php echo $tag['TagID']; ?>">View Posts</a>
 				<?php if(is_logged_in()){ ?>
 				</br>
 				<a href="view.php?type=tag&id=<?php echo u($tag['TagID']); ?>">View</a>

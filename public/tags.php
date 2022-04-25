@@ -11,6 +11,7 @@ require_once(PRIVATE_PATH . '/database.php');
 </div>
 
 <table>
+	<h1 class="container-header"> Tags </h1>
 	<tr>
 		<th></th>
 		<th></th>

@@ -6,11 +6,6 @@
 	<h1 class="container-header"> Posts </h1>
 	<p class="container-subhead"> sorted by weight </p>
 	<p><a class="viewcategories" href="viewcategories.php">View Categories</a></p>
-	<?php if(is_logged_in()){ ?>
-	<div class="create-new-button">
-		<a href="<?php echo 'create.php?type=post'; ?>">Create New Post</a>
-	</div>
-	<?php } ?>
 
 	<?php
 	$posts = get_all_posts_by_weight($conn);

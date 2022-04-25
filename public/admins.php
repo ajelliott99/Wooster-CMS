@@ -5,7 +5,7 @@ if(!is_logged_in()){ header("Location: index.php"); }
 
 <?php require_once(PRIVATE_PATH . '/templates/header.php'); ?>
 
-<div class="create-new-button">
+<div class="create-new-admin">
 	<a href="signup.php">Create New Admin</a>
 </div>
 

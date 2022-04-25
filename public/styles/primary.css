@@ -8,19 +8,61 @@ html{
 }
 
 body{
-  height: 980px;
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background: #F7EDE2;
+  background: #F4F3EE;
+  font-family: sans-serif;
+}
+
+header{
+	position: fixed;
+	height: 60px;
+	width: 100%;
+	background: #e03e52;
+	box-shadow: 0 0 25px 0 black;
+	top: 0;
+	left: 0;
+	margin-bottom: 10px;
+	
+}
+
+header *{
+	display: inline;
 }
 
 footer{
-   position:absolute;
-   bottom:0;
-   width:100%;
-   height:60px;   /* Height of the footer */
+	clear: both;
+	height: 3em;
+	margin: 0;
+	padding: 1em;
+	text-align: center;
+	background: #e03e52;
+	color: #FFFFFF;
 }
+
+header h1{
+	margin: 10px;
+}
+
+header li{
+	margin: 20px;
+}
+
+header p{
+	margin: 10px;
+}
+
+header a{
+	text-decoration: none;
+	color: black;
+}
+
+header a:hover{
+	color: #FDFFFC
+}
+
 
 .errors-box{
 	display: inline-block;
@@ -77,30 +119,82 @@ table {
   border-collapse: collapse;
   vertical-align: top;
   width: 100%;
+  margin-top: 20px;
 }
 
 table tr td {
   border: 1px solid #999999;
+  padding: 3px;
 }
 
 table tr th {
   border: 1px solid #F28482;
-  background: #E63946;
+  background: #00A5CF;
   color: white;
   text-align: left;
+  padding: 3px;
 }
 
 /* Buttons */
-div.create-new-button{
+
+.viewcategories{
+	width: 100px;
+	padding: 10px;
 	margin: 10px;
+	text-align: center;
+	background: #00A5CF;
+	text-decoration: none;
+	color: black;
+}
+
+.viewcategories:hover{
+	background: #e03e52;
+}
+
+.create-new-button{
+	width: 100px;
+	padding: 10px;
+	margin: auto;
+	text-align: center;
+	background: #e03e52;
+}
+
+.create-new-admin{
+	width: 100px;
+	padding: 10px;
+	margin: 100px auto 0px auto;
+	text-align: center;
+	background: #00A5CF;
+}
+
+.create-new-admin a{
+	text-decoration: none;
+	color: black;
+}
+
+.create-new-admin:hover{
+	background: #e03e52;
+}
+
+.create-new-button a{
+	text-decoration: none;
+	color: black;
+}
+
+.create-new-button:hover{
+	background: #00A5CF;
+}
+
+.view-post-btn{
+	
 }
 
 /* View Post (view.php) */
 .view-post-container{
 	background: #FFF;
 	width: 60%;
-	margin: auto;
 	margin-collapse: none;
+	margin: auto;
 }
 
 .view-post-title-container{
@@ -126,15 +220,14 @@ div.create-new-button{
 
 /* View Tag (view.php) */
 .view-tag-container{
-	background: #FFF;
-	width: 60%;
-	margin: auto;
+	/*background: #FFF;*/
+	margin: 100px auto;
 	margin-collapse: none;
+	text-align: center;
 }
 
 .view-tag-name-container{
 	padding: 15px;
-	
 }
 
 .view-tag-name-container h1{
@@ -151,14 +244,16 @@ div.create-new-button{
 
 /* List of posts (posts.php) */
 .all-posts-container{
-	background: #4ecdc4;
+	background: #9E829C;
 	margin: auto;
 	padding: 10px;
 	width: 70%;
+	margin-top: 100px;
+	margin-bottom: 40px;
 }
 
 .all-posts-container-by-tag{
-	background: #4ecdc4;
+	background: #9E829C;
 	margin: 25px auto;
 	padding: 10px;
 	width: 70%;
@@ -177,8 +272,17 @@ div.create-new-button{
 }
 
 .post-container{
-	background: #f7fff7;
+	background: #FDFFFC;
 	margin: 10px;
+}
+
+.post-container a{
+	text-decoration: none;
+	color: black;
+}
+
+.post-container a:hover{
+	color: #00A5CF;
 }
 
 .post-top-row{
@@ -191,10 +295,21 @@ div.create-new-button{
 
 /* List of tags for public view (viewcategories.php) */
 .all-tags-container{
-	background: #4ecdc4;
+	background: #9E829C;
 	margin: auto;
 	padding: 10px;
 	width: 70%;
+	margin-top: 100px;
+	margin-bottom: 40px;
+}
+
+.all-tags-container a{
+	text-decoration: none;
+	color: black;
+}
+
+.all-tags-container a:hover{
+	color: #00A5CF;
 }
 
 .tags-container-header{
@@ -204,7 +319,7 @@ div.create-new-button{
 }
 
 .tag-container{
-	background: #f7fff7;
+	background: #FDFFFC;
 	margin: 10px;
 }
 
