@@ -50,7 +50,7 @@ if($t == "post"){
 		
 	</div>
 	
-	<div class="all-posts-container">
+	<div class="all-posts-container-by-tag">
 	<h1 class="container-header"> Posts: <?php echo h($tag['Name']); ?></h1>
 
 	<?php

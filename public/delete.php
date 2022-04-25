@@ -18,12 +18,16 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		}elseif($delete_type == "post"){
 			delete_post($conn, $id);
 			header("Location: posts.php");
+		}elseif($delete_type == "admin"){
+			delete_admin($conn, $id);
+			header("Location: admins.php");
 		}
 		
 	}else{
 		// If user selects no, redirect based on what type was being deleted
 		if($delete_type == "tag"){ header("Location: tags.php");
-		}elseif($delete_type == "post"){ header("Location: posts.php"); }
+		}elseif($delete_type == "post"){ header("Location: posts.php"); 
+		}elseif($delete_type == "admin"){ header("Location: admins.php"); }
 	}
 }elseif($_SERVER['REQUEST_METHOD'] === "GET"){
 	

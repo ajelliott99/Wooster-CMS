@@ -4,6 +4,7 @@
 
 <div class="all-posts-container">
 	<h1 class="container-header"> Posts </h1>
+	<p class="container-subhead"> sorted by weight </p>
 	<p><a class="viewcategories" href="viewcategories.php">View Categories</a></p>
 	<?php if(is_logged_in()){ ?>
 	<div class="create-new-button">

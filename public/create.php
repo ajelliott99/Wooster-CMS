@@ -74,7 +74,7 @@ if($t == "tag"){ ?>
 		</br>
 		<input type="text" name="author" id="author" placeholder="Author"></input>
 		</br>
-		<input type="text" name="tagid" id="tagid" size="6" placeholder="Tag"></input>
+		<input type="text" name="tagid" id="tagid" size="6" placeholder="Tag ID"></input>
 		</br>
 		<input type="text" name="weight" id="weight" size="6" placeholder="Weight"></input>
 		</br>

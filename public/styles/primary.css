@@ -144,6 +144,13 @@ div.create-new-button{
 	width: 70%;
 }
 
+.all-posts-container-by-tag{
+	background: #4ecdc4;
+	margin: 25px auto;
+	padding: 10px;
+	width: 70%;
+}
+
 .container-header{
 	margin: 5px;
 	padding: 5px;

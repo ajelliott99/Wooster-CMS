@@ -13,12 +13,15 @@ $t = $_GET['type'];
 // Holds info about the post or tag being edited
 $tag_info = [];
 $post_info = [];
+$admin_info = [];
 
 // Assigns variables according to whether post or tag
 if($t == "tag"){
 	$tag_info['TagID'] = $_GET['id'];
 }elseif($t == "post"){
 	$post_info['PostID'] = $_GET['id'];
+}elseif($t == "admin"){
+	$admin_info['id'] = $_GET['id'];
 }
 
 // If POST request
@@ -50,6 +53,19 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		}else{
 			header("Location: posts.php");
 		}
+	}elseif($t == "admin"){
+		$admin_info['id'] = $_GET['id'];
+		$admin_info['first_name'] = $_POST['first_name'];
+		$admin_info['last_name'] = $_POST['last_name'];
+		$admin_info['email'] = $_POST['email'];
+		$admin_info['username'] = $_POST['username'];
+		
+		$errors = update_admin($conn, $admin_info['id'], $admin_info['first_name'], $admin_info['last_name'], $admin_info['email'], $admin_info['username']);
+		if(!empty($errors)){
+			echo "Errors in edit.php. Database not updated. ";
+		}else{
+			header("Location: admins.php");
+		}
 	}
 	
 	
@@ -71,6 +87,12 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		$post_info['Subtitle'] = $post['Subtitle'];
 		$post_info['Content'] = $post['Content'];
 		$post_info['Author'] = $post['Author'];
+	}elseif($t == "admin"){
+		$admin = get_admin_by_id($conn, $_GET['id']);
+		$admin_info['first_name'] = $admin['first_name'];
+		$admin_info['last_name'] = $admin['last_name'];
+		$admin_info['email'] = $admin['email'];
+		$admin_info['username'] = $admin['username'];
 	}
 }
 
@@ -101,7 +123,7 @@ if($t == "tag"){ ?>
 		<label>Author:
 			<input type="text" name="author" id="author" size="99" value="<?php echo h($post_info['Author']); ?>"></input>
 		</label></br>
-		<label>Tag: 
+		<label>Tag ID: 
 			<input type="text" name="tagid" id="tagid" size="6" value="<?php echo h($post_info['TagID']); ?>"></input>
 		</label></br>
 		<label>Weight:
@@ -112,6 +134,23 @@ if($t == "tag"){ ?>
 		</label></br>
 		<label>Content:
 			<input type="text" name="content" id="content" size="500" value="<?php echo h($post_info['Content']); ?>"></input>
+		</label></br>
+		<input type="submit" name="submit" id="submit" value="Update"></input>
+	</form>
+<?php }elseif($t == "admin"){ ?>
+	<h1> Edit Admin </h1>
+	<form action="<?php echo 'edit.php?type=admin&id=' . $admin_info['id'];?>" method="post" class="create-new-form">
+		<label>First Name:
+			<input type="text" name="first_name" id="first_name" value="<?php echo h($admin_info['first_name']); ?>"></input>
+		</label></br>
+		<label>Last Name:
+			<input type="text" name="last_name" id="last_name" size="100" value="<?php echo h($admin_info['last_name']); ?>"></input>
+		</label></br>
+		<label>Email:
+			<input type="text" name="email" id="email" size="99" value="<?php echo h($admin_info['email']); ?>"></input>
+		</label></br>
+		<label>Username: 
+			<input type="text" name="username" id="username" value="<?php echo h($admin_info['username']); ?>"></input>
 		</label></br>
 		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>

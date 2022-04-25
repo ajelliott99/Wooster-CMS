@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		echo implode($errors);
 	}else{
 		// redirect with success message
-		echo "Success";
+		header("Location: admins.php");
 	}
 }
 ?>

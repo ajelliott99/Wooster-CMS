@@ -194,13 +194,32 @@ function create_admin($connection, $admin_info){
 		$query = "INSERT INTO admins (first_name, last_name, email, username, hashed_password) ";
 		$query .= "VALUES ('" . db_escape($connection, $admin_info['firstname']) . "', '" . db_escape($connection, $admin_info['lastname']) . "', '" . db_escape($connection, $admin_info['email']) . "', '" . db_escape($connection, $admin_info['username']) . "', '" . db_escape($connection, $admin_info['hashed_password']) . "') ";
 		
-		$result = mysqli_query($connection, $query);
-		if(!$result){
-			$errors[] = mysqli_connect_error();
+		$errors = validate_admin($connection, $first_name, $last_name, $email, $username);
+		
+		if(empty($errors)){
+			$result = mysqli_query($connection, $query);
+			if(!$result){
+				$errors[] = mysqli_connect_error();
+			}
 		}
 	}
 	
 	return $errors;
+}
+
+function get_all_admins($connection){
+	$errors = [];
+	
+	$query = "SELECT * FROM admins";
+	$result = mysqli_query($connection, $query);
+	
+	$data = array();
+	while($fetch = mysqli_fetch_assoc($result)){
+		array_push($data, $fetch);
+	}
+
+	mysqli_free_result($result);
+	return $data;
 }
 
 function get_admin_by_username($connection, $username){
@@ -231,8 +250,48 @@ function get_admin_by_email($connection, $email){
 	return $data;
 }
 
-function delete_admin($connection, $id){
+function get_admin_by_id($connection, $id){
+	$errors = [];
 	
+	$query = "SELECT * FROM admins ";
+	$query .= "WHERE id='" . db_escape($connection, $id) . "' ";
+	$query .= "LIMIT 1";
+	$result = mysqli_query($connection, $query);
+	
+	$data = mysqli_fetch_assoc($result);
+
+	mysqli_free_result($result);
+	return $data;
+}
+
+function update_admin($connection, $id, $first_name, $last_name, $email, $username){
+	$query = "UPDATE admins ";
+	$query .= "SET first_name='" . db_escape($connection, $first_name) . "', ";
+	$query .= "last_name='" . db_escape($connection, $last_name) . "', ";
+	$query .= "email='" . db_escape($connection, $email) . "', ";
+	$query .= "username='" . db_escape($connection, $username) . "' ";
+	$query .= "WHERE id='" . $id . "'";
+
+	$errors = validate_admin($connection, $first_name, $last_name, $email, $username);
+	if(empty($errors)){
+		$result = mysqli_query($connection, $query);
+		if(!$result){
+			$errors[] = mysqli_connect_error();
+		}
+	}
+	
+	return $errors;
+}
+
+function delete_admin($connection, $id){
+	$query = "DELETE FROM admins ";
+	$query .= "WHERE id='" . db_escape($connection, $id) . "' ";
+	$query .= "LIMIT 1";
+	
+	echo $query;
+
+	$result = mysqli_query($connection, $query);
+	return $result;
 }
 
 function validate_tag($name, $desc){
@@ -245,6 +304,36 @@ function validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $
 	$errors = [];
 	
 	return $errors;
+}
+
+function validate_admin($connection, $first_name, $last_name, $email, $username){
+	$errors = [];
+	
+	// Validate username
+	if(empty($username)){
+		$errors[] = "Username cannot be blank.";
+	}elseif(strlen($username) < 4){
+		$errors[] = "Username must be at least 4 characters.";
+	}elseif(strlen($username) > 30){
+		$errors[] = "Username cannot be more than 30 characters.";
+	}elseif(!empty(get_admin_by_username($connection, $username))){
+		$errors[] = "Username taken.";
+	}
+	
+	// Validate email
+	$email_regex = '/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\Z/i';
+	if(empty($email)){
+		$errors[] = "Email cannot be empty";
+	}elseif(!preg_match($email_regex, $email)){
+		$errors[] = "Invalid email format.";
+	}
+	
+	// Validate name
+	if(empty($first_name) or empty($last_name)){
+		$errors[] = "Name cannot be blank.";
+	}elseif(strlen($first_name > 30) or strlen($last_name) > 30){
+		$errors[] = "Name cannot be greater than 30 characters.";
+	}
 }
 
 // Very basic validation functions for creating admins 
