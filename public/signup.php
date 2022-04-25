@@ -1,7 +1,7 @@
 <?php 
 require_once('../private/init.php'); 
 
-//if(!is_logged_in()){ header("Location: index.php"); } 
+if(!is_logged_in()){ header("Location: index.php"); } 
 
 $admin_info = [];
 $errors = [];

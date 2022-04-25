@@ -12,7 +12,7 @@ body{
   width: 100%;
   margin: 0;
   padding: 0;
-  background: #F4F3EE;
+  background: #ECEAEA;
   font-family: sans-serif;
 }
 
@@ -158,6 +158,7 @@ table {
   vertical-align: top;
   width: 100%;
   margin-top: 20px;
+  margin-bottom: 200px;
 }
 
 table tr td {
@@ -238,15 +239,24 @@ table h1{
 
 /* View Post (view.php) */
 .view-post-container{
-	background: #FFF;
+	background: #9E829C;
 	width: 60%;
 	margin-collapse: none;
-	margin: auto;
+	margin: 100px auto;
 }
 
 .view-post-title-container{
 	padding: 15px;
 	
+}
+
+.view-post-container a{
+	text-decoration: none;
+	color: white;
+}
+
+.view-post-container a:hover{
+	color: black;
 }
 
 .view-post-title-container h1{

@@ -133,7 +133,7 @@ function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, 
 		$result = mysqli_query($connection, $query);
 		if(!$result){
 			$errors[] = mysqli_connect_error();
-			echo "There was an error.";
+			$errors[] =  "There was an error.";
 		}
 	}
 	
@@ -342,7 +342,8 @@ function validate_post($connection, $tagid, $weight, $visible, $title, $subtitle
 	}
 	
 	// Validate visible
-	if(empty($visible)){
+	// We have to use isset here because if the value is 0, empty() would return true
+	if(!isset($visible)){
 		$errors[] = "Visible cannot be empty.";
 	}elseif($visible != "0" and $visible != "1"){
 		$errors[] = "Invalid visible value. 0 = Not visible 1 = Visible";
@@ -407,7 +408,7 @@ function validate_admin($connection, $id, $first_name, $last_name, $email, $user
 	// Validate name
 	if(empty($first_name) or empty($last_name)){
 		$errors[] = "Name cannot be empty.";
-	}elseif(strlen($first_name > 30) or strlen($last_name) > 30){
+	}elseif(strlen($first_name) > 30 or strlen($last_name) > 30){
 		$errors[] = "Name cannot be greater than 30 characters.";
 	}
 	
@@ -450,8 +451,8 @@ function validate_signup_info($connection, $username, $email, $password, $first_
 	// Validate name
 	if(empty($first_name) or empty($last_name)){
 		$errors[] = "Name cannot be empty.";
-	}elseif(strlen($first_name > 30) or strlen($last_name) > 30){
-		$errors[] = "Name cannot be greater than 30 characters.";
+	}elseif(strlen($first_name) > 30 or strlen($last_name) > 30){
+		$errors[] = "Name cannot be greater than 30 characters." . strlen($first_name);
 	}
 	
 	return $errors;

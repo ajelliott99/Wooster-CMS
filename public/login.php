@@ -1,5 +1,8 @@
 <?php 
 require_once('../private/init.php');
+if(is_logged_in()){
+	header("Location: index.php");
+}
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
 	if(empty($_POST['email']) or empty($_POST['password'])){

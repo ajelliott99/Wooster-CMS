@@ -32,13 +32,19 @@ if($t == "post"){
 	<div class="view-post-container">
 		<div class="view-post-title-container">
 			<h1><?php echo h($post['Title']); ?></h1>
-			<h2><?php echo h($post['Subtitle']); ?></h2>
+			<h3><?php echo h($post['Subtitle']); ?></h3>
 			<p class="view-post-author"> By: <?php echo h($post['Author']); ?> </p>
 		</div>
 		<div class="view-post-content-container">
 			<p>
 				<?php echo h($post['Content']); ?>
 			</p>
+		</div>
+		<div class="post-bottom-row">
+			<?php if(is_logged_in()){ ?>
+			<a href="edit.php?type=post&id=<?php echo u($post['PostID']); ?>">Edit</a>
+			<a href="delete.php?type=post&id=<?php echo u($post['PostID']); ?>">Delete</a>
+			<?php } ?>
 		</div>
 	</div>
 <?php }elseif($t == "tag"){ ?>

@@ -1,6 +1,6 @@
 <?php 
 require_once('../private/init.php');
-//if(!is_logged_in()){ header("Location: index.php"); } 
+if(!is_logged_in()){ header("Location: index.php"); } 
 ?>
 
 <?php require_once(PRIVATE_PATH . '/templates/header.php'); ?>

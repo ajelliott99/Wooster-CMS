@@ -136,7 +136,7 @@ if($t == "tag"){ ?>
 			<input type="text" name="visible" id="visible" size="6" value="<?php echo h($post_info['Visible']); ?>"></input>
 		</label></br>
 		<label>Content:
-			<textarea type="text" name="content" id="content" size="500" value="<?php echo h($post_info['Content']); ?>"></textarea>
+			<textarea type="text" name="content" id="content" size="500"><?php echo h($post_info['Content']); ?></textarea>
 		</label></br>
 		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>

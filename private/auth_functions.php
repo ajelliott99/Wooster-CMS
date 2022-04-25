@@ -5,7 +5,7 @@ function login_user($user){
 	session_regenerate_id();
 	$_SESSION['admin_id'] = $user['id'];
 	$_SESSION['first_name'] = $user['first_name'];
-	echo "logged in.";
+	header("Location: index.php");
 }
 
 function is_logged_in(){
