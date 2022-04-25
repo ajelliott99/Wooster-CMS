@@ -11,7 +11,6 @@ $tags = get_all_tags($conn);
 
 	<?php
 	foreach($tags as $tag){?>
-	
 		<div class="tag-container">
 			<div class="tag-top-row">
 				<div>

@@ -7,8 +7,8 @@ $admin_info = [];
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-	$admin_info['firstname'] = $_POST['firstname'] ?? "";
-	$admin_info['lastname'] = $_POST['lastname'] ?? "";
+	$admin_info['first_name'] = $_POST['firstname'] ?? "";
+	$admin_info['last_name'] = $_POST['lastname'] ?? "";
 	$admin_info['email'] = $_POST['email'] ?? "";
 	$admin_info['username'] = $_POST['username'] ?? "";
 	$admin_info['password'] = $_POST['password'];
@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 	$errors = create_admin($conn, $admin_info);
 	if(!empty($errors)){
 		// error creating account
-		echo implode($errors);
+		echo display_errors($errors);
 	}else{
 		// redirect with success message
 		header("Location: admins.php");

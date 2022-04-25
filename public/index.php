@@ -14,23 +14,25 @@
 
 	<?php
 	$posts = get_all_posts_by_weight($conn);
-	foreach($posts as $post){?>
-	
-		<div class="post-container">
-			<div class="post-top-row">
-				<div>
-					<h3><a href="view.php?type=post&id=<?php echo h($post['PostID']); ?>"><?php echo h($post['Title']); ?></a></h3>
-					<h4><?php echo h($post['Subtitle']); ?></h4>
+	foreach($posts as $post){
+		// This displays to the public, so only display posts with visible == 1
+		if($post['Visible'] == 1){ ?>
+			<div class="post-container">
+				<div class="post-top-row">
+					<div>
+						<h3><a href="view.php?type=post&id=<?php echo h($post['PostID']); ?>"><?php echo h($post['Title']); ?></a></h3>
+						<h4><?php echo h($post['Subtitle']); ?></h4>
+					</div>
+				</div>
+				<div class="post-bottom-row">
+					<?php if(is_logged_in()){ ?>
+					<a href="view.php?type=post&id=<?php echo u($post['PostID']); ?>">View</a>
+					<a href="edit.php?type=post&id=<?php echo u($post['PostID']); ?>">Edit</a>
+					<a href="delete.php?type=post&id=<?php echo u($post['PostID']); ?>">Delete</a>
+					<?php } ?>
 				</div>
 			</div>
-			<div class="post-bottom-row">
-				<?php if(is_logged_in()){ ?>
-				<a href="view.php?type=post&id=<?php echo u($post['PostID']); ?>">View</a>
-				<a href="edit.php?type=post&id=<?php echo u($post['PostID']); ?>">Edit</a>
-				<a href="delete.php?type=post&id=<?php echo u($post['PostID']); ?>">Delete</a>
-				<?php } ?>
-			</div>
-		</div>
+		<?php } ?>
 	<?php } ?>
 	
 </div>

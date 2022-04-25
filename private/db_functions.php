@@ -122,17 +122,18 @@ function get_all_posts_by_tag_id($connection, $id){
 }
 
 function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
-	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
+	$errors = validate_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author);
 	
 	$timestamp = date('Y-m-d H:i:s');
 	
 	$query = "INSERT INTO posts (TagID, Weight, Visible, Title, Subtitle, Content, Author, Updated) ";
 	$query .= "VALUES ('" . db_escape($connection, $tagid) . "', '" . db_escape($connection, $weight) . "', '" . db_escape($connection, $visible) . "', '" . db_escape($connection, $title) . "', '" . db_escape($connection, $subtitle) . "', '" . db_escape($connection, $content) . "', '" . db_escape($connection, $author) . "', '" . db_escape($connection, $timestamp) . "') ";
-	echo $query;
+	
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
 			$errors[] = mysqli_connect_error();
+			echo "There was an error.";
 		}
 	}
 	
@@ -140,6 +141,8 @@ function create_post($connection, $tagid, $weight, $visible, $title, $subtitle, 
 }
 
 function update_post($connection, $postid, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
+	$errors = validate_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author);
+	
 	$timestamp = date('Y-m-d H:i:s');
 	
 	$query = "UPDATE posts ";
@@ -152,12 +155,12 @@ function update_post($connection, $postid, $tagid, $weight, $visible, $title, $s
 	$query .= "Author='" . db_escape($connection, $author) . "', ";
 	$query .= "Updated='" . $timestamp . "' ";
 	$query .= "WHERE PostID='" . $postid . "'";
-	echo $query;
-	$errors = validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author);
+	
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
 			$errors[] = mysqli_connect_error();
+			echo "There was an error.";
 		}
 	}
 	
@@ -186,7 +189,7 @@ function delete_post($connection, $id){
 }
 
 function create_admin($connection, $admin_info){
-	$errors = validate_signup_info($connection, $admin_info['username'], $admin_info['email'], $admin_info['password']);
+	$errors = validate_signup_info($connection, $admin_info['username'], $admin_info['email'], $admin_info['password'], $admin_info['first_name'], $admin_info['last_name']);
 
 	if(empty($errors)){
 		$admin_info['hashed_password'] = password_hash($admin_info['password'], PASSWORD_BCRYPT);
@@ -194,7 +197,7 @@ function create_admin($connection, $admin_info){
 		$query = "INSERT INTO admins (first_name, last_name, email, username, hashed_password) ";
 		$query .= "VALUES ('" . db_escape($connection, $admin_info['firstname']) . "', '" . db_escape($connection, $admin_info['lastname']) . "', '" . db_escape($connection, $admin_info['email']) . "', '" . db_escape($connection, $admin_info['username']) . "', '" . db_escape($connection, $admin_info['hashed_password']) . "') ";
 		
-		$errors = validate_admin($connection, $first_name, $last_name, $email, $username);
+		$errors = validate_admin($connection, $admin_info['id'], $first_name, $last_name, $email, $username);
 		
 		if(empty($errors)){
 			$result = mysqli_query($connection, $query);
@@ -272,7 +275,7 @@ function update_admin($connection, $id, $first_name, $last_name, $email, $userna
 	$query .= "username='" . db_escape($connection, $username) . "' ";
 	$query .= "WHERE id='" . $id . "'";
 
-	$errors = validate_admin($connection, $first_name, $last_name, $email, $username);
+	$errors = validate_admin($connection, $id, $first_name, $last_name, $email, $username);
 	if(empty($errors)){
 		$result = mysqli_query($connection, $query);
 		if(!$result){
@@ -287,37 +290,110 @@ function delete_admin($connection, $id){
 	$query = "DELETE FROM admins ";
 	$query .= "WHERE id='" . db_escape($connection, $id) . "' ";
 	$query .= "LIMIT 1";
-	
-	echo $query;
 
 	$result = mysqli_query($connection, $query);
 	return $result;
 }
 
+function tag_exists($connection, $tagid){
+	$result = get_tag_by_id($connection, $tagid);
+	if(!empty($result)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 function validate_tag($name, $desc){
 	$errors = [];
 	
-	return $errors;
-}
-
-function validate_post($tagid, $weight, $visible, $title, $subtitle, $content, $author){
-	$errors = [];
+	// Validate name
+	if(empty($name)){
+		$errors[] = "Name cannot be empty.";
+	}elseif(strlen($name) > 99){
+		$errors[] = "Name cannot exceed 99 characters.";
+	}
+	
+	// Validate description
+	if(empty($desc)){
+		$errors[] = "Description cannot be empty.";
+	}elseif(strlen($desc) > 500){
+		$errors[] = "Description cannot exceed 500 characters.";
+	}
 	
 	return $errors;
 }
 
-function validate_admin($connection, $first_name, $last_name, $email, $username){
+function validate_post($connection, $tagid, $weight, $visible, $title, $subtitle, $content, $author){
+	$errors = [];
+	
+	// Validate TagID
+	if(empty($tagid)){
+		$errors[] = "Tag ID cannot be empty";
+	}elseif(!tag_exists($connection, $tagid)){
+		$errors[] = "Tag does not exist. Please enter a valid Tag ID. To view available tags, see Tags tab.";
+	}
+	
+	// Validate weight
+	if(empty($weight)){
+		$errors[] = "Weight cannot be empty.";
+	}elseif(intval($weight) == 0){
+		$errors[] = "Please enter a valid weight, 1-100";
+	}
+	
+	// Validate visible
+	if(empty($visible)){
+		$errors[] = "Visible cannot be empty.";
+	}elseif($visible != "0" and $visible != "1"){
+		$errors[] = "Invalid visible value. 0 = Not visible 1 = Visible";
+	}
+	
+	// Validate title
+	if(empty($title)){
+		$errors[] = "Title cannot be empty.";
+	}elseif(strlen($title) > 200){
+		$errors[] = "Title cannot exceed 200 characters.";
+	}
+	
+	// Validate subtitle
+	if(empty($subtitle)){
+		$errors[] = "Subtitle cannot be empty.";
+	}elseif(strlen($subtitle) > 200){
+		$errors[] = "Subtitle cannot exceed 200 characters.";
+	}
+	
+	// Validate content
+	if(empty($content)){
+		$errors[] = "Content cannot be empty.";
+	}elseif(strlen($content) > 1000000){
+		$errors[] = "Content too large.";
+	}
+	
+	// Validate author 
+	if(empty($author)){
+		$errors[] = "Author cannot be empty.";
+	}
+	
+	return $errors;
+}
+
+function validate_admin($connection, $id, $first_name, $last_name, $email, $username){
 	$errors = [];
 	
 	// Validate username
 	if(empty($username)){
-		$errors[] = "Username cannot be blank.";
+		$errors[] = "Username cannot be empty.";
 	}elseif(strlen($username) < 4){
 		$errors[] = "Username must be at least 4 characters.";
 	}elseif(strlen($username) > 30){
 		$errors[] = "Username cannot be more than 30 characters.";
-	}elseif(!empty(get_admin_by_username($connection, $username))){
-		$errors[] = "Username taken.";
+	}
+	
+	$existing_admin = get_admin_by_username($connection, $username);
+	if(!empty($existing_admin)){
+		if($existing_admin['id'] != $id){
+			$errors[] = "Username taken.";
+		}
 	}
 	
 	// Validate email
@@ -330,20 +406,22 @@ function validate_admin($connection, $first_name, $last_name, $email, $username)
 	
 	// Validate name
 	if(empty($first_name) or empty($last_name)){
-		$errors[] = "Name cannot be blank.";
+		$errors[] = "Name cannot be empty.";
 	}elseif(strlen($first_name > 30) or strlen($last_name) > 30){
 		$errors[] = "Name cannot be greater than 30 characters.";
 	}
+	
+	return $errors;
 }
 
 // Very basic validation functions for creating admins 
 // TO DO: Add more validations to increase data reliability 
-function validate_signup_info($connection, $username, $email, $password){
+function validate_signup_info($connection, $username, $email, $password, $first_name, $last_name){
 	$errors = [];
 	
 	// Validate username
 	if(empty($username)){
-		$errors[] = "Username cannot be blank.";
+		$errors[] = "Username cannot be empty.";
 	}elseif(strlen($username) < 4){
 		$errors[] = "Username must be at least 4 characters.";
 	}elseif(strlen($username) > 30){
@@ -369,6 +447,12 @@ function validate_signup_info($connection, $username, $email, $password){
 		$errors[] = "Password cannot be over 50 characters.";
 	}
 	
+	// Validate name
+	if(empty($first_name) or empty($last_name)){
+		$errors[] = "Name cannot be empty.";
+	}elseif(strlen($first_name > 30) or strlen($last_name) > 30){
+		$errors[] = "Name cannot be greater than 30 characters.";
+	}
 	
 	return $errors;
 }

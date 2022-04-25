@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		
 		$errors = update_tag($conn, $tag_info['TagID'], $tag_info['Name'], $tag_info['Description']);
 		if(!empty($errors)){
-			echo "Errors in edit.php";
+			echo display_errors($errors);
 		}else{
 			header("Location: tags.php");
 		}
@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		
 		$errors = update_post($conn, $post_info['PostID'], $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content'], $post_info['Author']);
 		if(!empty($errors)){
-			echo "Errors in edit.php. Database not updated. ";
+			echo display_errors($errors);
 		}else{
 			header("Location: posts.php");
 		}
@@ -62,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		
 		$errors = update_admin($conn, $admin_info['id'], $admin_info['first_name'], $admin_info['last_name'], $admin_info['email'], $admin_info['username']);
 		if(!empty($errors)){
-			echo "Errors in edit.php. Database not updated. ";
+			echo display_errors($errors);
 		}else{
 			header("Location: admins.php");
 		}

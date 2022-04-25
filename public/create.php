@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		
 		$errors = create_tag($conn, $tag_info['Name'], $tag_info['Description']);
 		if(!empty($errors)){
-			echo $errors;
+			echo display_errors($errors);
 		}else{
 			header("Location: tags.php");
 		}
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 		
 		$errors = create_post($conn, $post_info['TagID'], $post_info['Weight'], $post_info['Visible'], $post_info['Title'], $post_info['Subtitle'], $post_info['Content'], $post_info['Author']);
 		if(!empty($errors)){
-			echo implode($errors);
+			echo display_errors($errors);
 		}else{
 			header("Location: posts.php");
 		}

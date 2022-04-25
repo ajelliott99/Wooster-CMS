@@ -22,6 +22,19 @@ footer{
    height:60px;   /* Height of the footer */
 }
 
+.errors-box{
+	display: inline-block;
+	border: 2px solid red;
+	color: red;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.errors-box ul{
+	margin-bottom: 0;
+	padding-left: 1em;
+}
+
 /* Forms */
 
 .create-new-form{
