@@ -80,7 +80,7 @@ if($t == "tag"){ ?>
 		</br>
 		<input type="text" name="visible" id="visible" size="6" placeholder="Visible"></input>
 		</br>
-		<input type="text" name="content" id="content" size="500" placeholder="Content"></input>
+		<textarea type="text" name="content" id="content" size="500" placeholder="Content"></textarea>
 		</br>
 		<input type="submit" name="submit" id="submit" value="Create"></input>
 	</form>

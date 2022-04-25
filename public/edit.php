@@ -100,6 +100,7 @@ require_once(PRIVATE_PATH . '/templates/header.php');
 ?>
 <?php
 if($t == "tag"){ ?>
+	<div class="form-container">
 	<h1>Edit Tag</h1>
 	<form action="<?php echo 'edit.php?type=tag&id=' . $tag_info['TagID'];?>" method="post">
 		<p> ID: <?php echo h($tag_info['TagID']); ?></p>
@@ -111,9 +112,11 @@ if($t == "tag"){ ?>
 		</label></br>
 		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>
+	</div>
 <?php }elseif($t == "post"){ ?>
-	<h1> Edit Post </h1>
+	<div class="form-container">
 	<form action="<?php echo 'edit.php?type=post&id=' . $post_info['PostID'];?>" method="post" class="create-new-form">
+		<h1> Edit Post </h1>
 		<label>Title:
 			<input type="text" name="title" id="title" value="<?php echo h($post_info['Title']); ?>"></input>
 		</label></br>
@@ -133,10 +136,11 @@ if($t == "tag"){ ?>
 			<input type="text" name="visible" id="visible" size="6" value="<?php echo h($post_info['Visible']); ?>"></input>
 		</label></br>
 		<label>Content:
-			<input type="text" name="content" id="content" size="500" value="<?php echo h($post_info['Content']); ?>"></input>
+			<textarea type="text" name="content" id="content" size="500" value="<?php echo h($post_info['Content']); ?>"></textarea>
 		</label></br>
 		<input type="submit" name="submit" id="submit" value="Update"></input>
 	</form>
+	</div>
 <?php }elseif($t == "admin"){ ?>
 	<h1> Edit Admin </h1>
 	<form action="<?php echo 'edit.php?type=admin&id=' . $admin_info['id'];?>" method="post" class="create-new-form">

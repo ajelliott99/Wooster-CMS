@@ -195,9 +195,9 @@ function create_admin($connection, $admin_info){
 		$admin_info['hashed_password'] = password_hash($admin_info['password'], PASSWORD_BCRYPT);
 		
 		$query = "INSERT INTO admins (first_name, last_name, email, username, hashed_password) ";
-		$query .= "VALUES ('" . db_escape($connection, $admin_info['firstname']) . "', '" . db_escape($connection, $admin_info['lastname']) . "', '" . db_escape($connection, $admin_info['email']) . "', '" . db_escape($connection, $admin_info['username']) . "', '" . db_escape($connection, $admin_info['hashed_password']) . "') ";
+		$query .= "VALUES ('" . db_escape($connection, $admin_info['first_name']) . "', '" . db_escape($connection, $admin_info['last_name']) . "', '" . db_escape($connection, $admin_info['email']) . "', '" . db_escape($connection, $admin_info['username']) . "', '" . db_escape($connection, $admin_info['hashed_password']) . "') ";
 		
-		$errors = validate_admin($connection, $admin_info['id'], $first_name, $last_name, $email, $username);
+		$errors = validate_admin($connection, $admin_info['id'], $admin_info['first_name'], $admin_info['last_name'], $admin_info['email'], $admin_info['username']);
 		
 		if(empty($errors)){
 			$result = mysqli_query($connection, $query);

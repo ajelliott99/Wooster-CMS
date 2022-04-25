@@ -6,12 +6,13 @@ require_once(PRIVATE_PATH . '/database.php');
 
 <?php require_once(PRIVATE_PATH . '/templates/header.php'); ?>
 
-<div class="create-new-button">
-	<a href="<?php echo 'create.php?type=tag'; ?>">Create New Tag</a>
-</div>
-
-<table>
+<div class="table-container">
 	<h1 class="container-header"> Tags </h1>
+	<div class="create-new-button">
+		<a href="<?php echo 'create.php?type=tag'; ?>">Create New Tag</a>
+	</div>
+	
+	<table>	
 	<tr>
 		<th></th>
 		<th></th>
@@ -33,5 +34,6 @@ require_once(PRIVATE_PATH . '/database.php');
 		</tr>
 	<?php } ?>
 </table>
+</div>
 
 <?php require_once(PRIVATE_PATH . '/templates/footer.php'); ?>

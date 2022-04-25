@@ -70,6 +70,7 @@ header a:hover{
 	color: red;
 	padding: 1em;
 	margin-bottom: 1em;
+	margin-top: 100px;
 }
 
 .errors-box ul{
@@ -79,20 +80,40 @@ header a:hover{
 
 /* Forms */
 
-.create-new-form{
+form{
+	margin: 100px 10px;
+	border: 2px solid black;
+	float: left;
+	width: 100%;
 	background: #457B9D;
-	padding: 10px;
-	width: 50%;
-	margin: auto;
 	text-align: center;
 }
 
-.create-new-form h1{
+form input, form label, form p, form button{
+	padding: 5px;
+	margin: 5px;
+	display: inline-block;
+	width: 100%;
+	
+}
+
+
+.form-container{
+	width: 50%;
+	margin: 100px auto;
+}
+
+.create-new-form{
+	
+}
+
+form h1{
 	text-align: center;
 	width: 100%;
 	color:#fff;
 }
-.create-new-form input[type=text]{
+
+form input[type=text]{
 	padding: 10px;
 	margin: 10px 0px;
 	box-shadow:0 0 8px 2px rgba(0,0,0,0.06);
@@ -100,7 +121,24 @@ header a:hover{
 	width: 50%;
 }
 
-.create-new-form input[type=submit]{
+form input[type=password]{
+	padding: 10px;
+	margin: 10px 0px;
+	box-shadow:0 0 8px 2px rgba(0,0,0,0.06);
+	border-radius:8px;
+	width: 50%;
+}
+
+form textarea{
+	padding: 10px;
+	margin: 10px 0px;
+	box-shadow:0 0 8px 2px rgba(0,0,0,0.06);
+	border-radius:8px;
+	width: 50%;
+	height: 200px;
+}
+
+form input[type=submit]{
 	appearance: none;
 	-webkit-appearance: none;
 	
@@ -135,6 +173,15 @@ table tr th {
   padding: 3px;
 }
 
+table h1{
+	margin: 100px auto 5px auto;
+}
+
+.table-container{
+	width: 100%;
+	margin: 100px auto;
+}
+
 /* Buttons */
 
 .viewcategories{
@@ -154,7 +201,7 @@ table tr th {
 .create-new-button{
 	width: 100px;
 	padding: 10px;
-	margin: auto;
+	margin: 10px auto 5px auto;
 	text-align: center;
 	background: #e03e52;
 }
